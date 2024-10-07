@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">281-proy</string>
+    <string-array name="roles_array">
+        <item>Selecciona un rol</item> <!-- Elemento placeholder -->
+        <item>Comprador</item>
+        <item>Vendedor</item>
+        <item>Delivery</item>
+    </string-array>
+</resources>
