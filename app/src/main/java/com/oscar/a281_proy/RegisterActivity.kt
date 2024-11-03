@@ -13,31 +13,31 @@ import com.oscar.a281_proy.database.SQLite
 
 class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    private lateinit var dbHelper: SQLite // Inicializar tu objeto de base de datos
+    private lateinit var dbHelper: SQLite
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        // Inicializar el objeto SQLite
+
         dbHelper = SQLite(this)
 
-        // Inicializar el Spinner
+
         val spinnerRoles = findViewById<Spinner>(R.id.spinnerRoles)
 
-        // Crear un array de roles
+
         val roles = arrayOf("Comprador", "Vendedor", "Delivery")
 
-        // Crear un ArrayAdapter
+
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, roles)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerRoles.adapter = adapter
         spinnerRoles.onItemSelectedListener = this
 
-        // Configurar el botón de registro
+
         val buttonRegister = findViewById<Button>(R.id.buttonRegister)
         buttonRegister.setOnClickListener {
-            registerUser(spinnerRoles) // Llamar a la función para registrar el usuario
+            registerUser(spinnerRoles)
         }
     }
 
@@ -46,13 +46,17 @@ class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         val password = findViewById<EditText>(R.id.editTextcontraseña).text.toString()
         val selectedRole = spinnerRoles.selectedItem.toString()
 
-        // Validar los campos
+
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
             return
         }
+        if (!email.endsWith("@gmail.com")) {
+            Toast.makeText(this, "Por favor, ingresa un correo válido que termine en '@gmail.com'.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        // Intentar agregar el usuario a la base de datos
+
         try {
             dbHelper.addUser(email, password, selectedRole) // Llama al método para insertar
             Toast.makeText(this, "Registro exitoso.", Toast.LENGTH_SHORT).show()
@@ -62,13 +66,13 @@ class RegisterActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener
         }
     }
 
-    // Implementar los métodos de la interfaz OnItemSelectedListener
+
     override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
         val selectedRole = parent.getItemAtPosition(position).toString()
         Toast.makeText(this, "Seleccionaste: $selectedRole", Toast.LENGTH_SHORT).show()
     }
 
     override fun onNothingSelected(parent: AdapterView<*>) {
-        // Aquí puedes manejar la lógica cuando no hay selección
+
     }
 }
